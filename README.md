@@ -1,32 +1,25 @@
 # 🎬 Cinema Audience Forecasting
 
-A machine learning project focused on forecasting daily cinema audience
-attendance using historical attendance, ticket bookings, theatre
-information, and time-based features.
+A machine learning project focused on forecasting daily cinema audience attendance using historical attendance, ticket bookings, theatre information, and time-based features.
 
-This project was developed as part of the Machine Learning Practice (MLP)
-coursework at IIT Madras and is based on a Kaggle competition.
+Developed as part of the Machine Learning Practice (MLP) coursework at IIT Madras, this project is based on the Kaggle Cinema Audience Forecasting Challenge.
 
 ## 📌 Problem Statement
 
-The objective is to predict the number of people attending a cinema
-for a given theatre and show date.
+The objective is to predict the number of people attending a cinema for a given theatre and show date.
 
-Accurate audience forecasting can help cinema operators improve
-operational planning, staffing, and resource allocation.
+Accurate audience forecasting can help cinema operators improve operational planning, staffing, and resource allocation.
 
-**Target Variable:** `audience_count`
+- **Target Variable:** `audience_count`
+- **Evaluation Metric:** Root Mean Squared Error (RMSE)
 
-**Evaluation Metric:** Root Mean Squared Error (RMSE)
-
-**Kaggle Competition:**  
-[Cinema Audience Forecasting Challenge](https://www.kaggle.com/competitions/Cinema_Audience_Forecasting_challenge/overview)
+**Kaggle Competition:** [Cinema Audience Forecasting Challenge](https://www.kaggle.com/competitions/Cinema_Audience_Forecasting_challenge/overview)
 
 ## 📊 Dataset
 
 The project uses eight competition files:
 
-| Dataset | Purpose |
+| Dataset | Description |
 |---|---|
 | `booknow_visits.csv` | Historical cinema audience counts |
 | `booknow_booking.csv` | Online ticket booking records |
@@ -37,49 +30,55 @@ The project uses eight competition files:
 | `date_info.csv` | Calendar and day-of-week information |
 | `sample_submission.csv` | Required prediction submission format |
 
-The datasets are available through the Kaggle competition and are not
-included in this repository.
+The datasets are provided through Kaggle and are not included in this repository.
 
 ## 🔍 Exploratory Data Analysis
 
-The exploratory analysis investigates:
+The exploratory data analysis investigates:
 
 - Distribution and skewness of audience attendance.
-- Changes in average daily attendance over time.
+- Changes in daily audience attendance over time.
 - Weekly and day-of-week attendance patterns.
-- Ticket bookings across different platforms.
+- Ticket booking patterns across different platforms.
 - Audience attendance across theatre types and areas.
 - Correlations between numerical features.
 
 ### Key Observations
 
-- Audience attendance has a right-skewed distribution.
-- Attendance exhibits a strong weekly seasonal pattern, with higher
-  attendance around weekends.
-- Ticket booking information has a positive relationship with audience
-  attendance.
-- Audience counts vary across theatre types and areas.
+- Audience attendance exhibits a right-skewed distribution.
+- Attendance varies across days of the week, with higher attendance around weekends.
+- Booking information provides useful signals for forecasting audience demand.
+- Audience counts vary across theatre characteristics and locations.
 
 ## ⚙️ Feature Engineering
 
-The project incorporates several types of features:
+Several feature groups are constructed to capture temporal patterns, booking behaviour, and differences between theatres.
 
-- **Calendar features:** Day, month, week, and other date-derived features.
-- **Booking features:** Aggregated ticket bookings from BookNow and CinePOS.
-- **Theatre features:** Theatre type, area, and location-related information.
-- **Event features:** Indicators for selected high-attendance dates and events.
-- **Historical features:** Lagged audience counts for previous days.
-- **Rolling statistics:** Rolling means, standard deviations, minima,
-  and maxima calculated from historical audience counts.
-- **Exponentially weighted features:** Features derived from historical
-  attendance patterns using exponentially weighted statistics.
+### 1. Calendar Features
+- Day, month, and week-related features.
+- Other date-derived features used in the forecasting workflow.
 
-Historical features are designed to capture recurring attendance patterns
-and changes in audience demand over time.
+### 2. Booking Features
+- Aggregated booking information from BookNow.
+- Aggregated point-of-sale booking information from CinePOS.
+
+### 3. Theatre Features
+- Theatre-related characteristics.
+- Area and location-related information.
+
+### 4. Event Features
+- Indicators for selected high-attendance dates and events.
+
+### 5. Historical Features
+- Lagged audience counts.
+- Rolling means, standard deviations, minima, and maxima.
+- Exponentially weighted historical statistics.
+
+These features help the models capture recurring attendance patterns and changes in audience demand over time.
 
 ## 🤖 Model Development
 
-The following regression models were evaluated:
+Three regression models were initially evaluated using time-series cross-validation.
 
 | Model | Mean Cross-Validation R² |
 |---|---:|
@@ -87,27 +86,39 @@ The following regression models were evaluated:
 | Linear Regression | 0.495338 |
 | Random Forest | 0.491969 |
 
-The models were compared using time-series cross-validation.
+Among these initial model comparisons, LightGBM achieved the highest mean cross-validation R².
 
-LightGBM achieved the highest mean cross-validation R² among these
-three models in the recorded experiments.
+### Hyperparameter Tuning
 
-A Random Forest Regressor with tuned hyperparameters was subsequently
-used to generate predictions for the competition test dataset.
+Random Forest was subsequently tuned using `RandomizedSearchCV` to explore different hyperparameter configurations.
 
-**Note:** The reported R² values are cross-validation results, not
-Kaggle leaderboard scores.
+The tuned Random Forest model was selected for generating predictions for the competition test dataset based on the score obtained during hyperparameter tuning.
+
+This allowed the project to explore whether an optimized Random Forest configuration could provide better predictive performance than its initial configuration.
+
+**Note:** The R² values above represent the initial cross-validation results. They are not Kaggle leaderboard scores, and the tuned Random Forest score is not reported here.
+
+## 📈 Evaluation
+
+The project uses cross-validation to assess model performance and compare regression approaches.
+
+The primary competition evaluation metric is Root Mean Squared Error (RMSE).
+
+- **R²:** Measures how well a model explains variation in the target variable.
+- **RMSE:** Measures the magnitude of prediction errors, with larger errors receiving greater weight.
+
+The initial model comparison favoured LightGBM based on mean cross-validation R², while the subsequent hyperparameter-tuning stage informed the selection of Random Forest for final prediction generation.
 
 ## 🛠️ Technologies Used
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- LightGBM
-- Jupyter Notebook
+- **Python** — Core programming language.
+- **Pandas** — Data manipulation and analysis.
+- **NumPy** — Numerical computation.
+- **Matplotlib** — Data visualization.
+- **Seaborn** — Statistical visualization.
+- **Scikit-learn** — Preprocessing, model evaluation, and hyperparameter tuning.
+- **LightGBM** — Gradient boosting model.
+- **Jupyter Notebook** — Interactive development and experimentation.
 
 ## 📁 Repository Structure
 
@@ -115,10 +126,10 @@ Kaggle leaderboard scores.
 Cinema-Audience-Forecasting/
 ├── README.md
 ├── 23f1002354-notebook-t32025.ipynb
-└── .gitignore
+└── requirements.txt
 ```
 
-Additional files may be included as the project evolves.
+The notebook contains the data preparation, exploratory analysis, feature engineering, model development, evaluation, and prediction workflow.
 
 ## 🚀 Getting Started
 
@@ -139,16 +150,21 @@ Replace `YOUR_USERNAME` with your GitHub username.
 
 ### 2. Install Dependencies
 
-Install the libraries listed in `requirements.txt` after it has been
-added to the repository.
+Install the dependencies listed in `requirements.txt`.
+
+```bash
+pip install -r requirements.txt
+```
 
 ### 3. Download the Dataset
 
-Download the competition datasets from:
+Download the competition datasets from the official Kaggle competition page:
 
-https://www.kaggle.com/competitions/Cinema_Audience_Forecasting_challenge/data
+[Download the Cinema Audience Forecasting Dataset](https://www.kaggle.com/competitions/Cinema_Audience_Forecasting_challenge/data)
 
-Update the dataset paths in the notebook to match your local environment.
+Configure the dataset paths in the notebook to match your local environment.
+
+The original competition datasets are not included in this repository.
 
 ### 4. Run the Notebook
 
@@ -156,25 +172,9 @@ Update the dataset paths in the notebook to match your local environment.
 jupyter notebook 23f1002354-notebook-t32025.ipynb
 ```
 
-Run the cells in order after configuring the dataset paths.
+Execute the cells in order after configuring the dataset paths and installing the required dependencies.
 
-## 📈 Results and Limitations
-
-The recorded cross-validation experiments show that LightGBM achieved
-the highest mean R² among the three compared models.
-
-The final competition submission was generated using a tuned Random
-Forest Regressor.
-
-A verified Kaggle leaderboard score has not been documented here.
-
-## 🙏 Acknowledgements
-
-- Kaggle for providing the Cinema Audience Forecasting Challenge.
-- IIT Madras for the Machine Learning Practice coursework.
 
 ## 📄 Dataset Disclaimer
 
-The competition datasets are not included in this repository.
-Users should obtain the data directly from Kaggle and follow the
-applicable competition rules and dataset terms.
+The competition datasets are not included in this repository. Users should obtain the data directly from Kaggle and follow the applicable competition rules and dataset terms.
