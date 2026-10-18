@@ -18,8 +18,8 @@ The main challenges include:
 - Constructing historical features without introducing data leakage
 - Evaluating models using a time-aware validation strategy
 
-- **Target Variable:** `audience_count`
-- **Evaluation Metric:** Root Mean Squared Error (RMSE)
+**Target Variable:** `audience_count`
+**Evaluation Metric:** Root Mean Squared Error (RMSE)
 
 **Kaggle Competition:** [Cinema Audience Forecasting Challenge](https://www.kaggle.com/competitions/Cinema_Audience_Forecasting_challenge/overview)
 
