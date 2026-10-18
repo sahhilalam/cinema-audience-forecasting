@@ -6,9 +6,17 @@ Developed as part of the Machine Learning Practice (MLP) coursework at IIT Madra
 
 ## 📌 Problem Statement
 
-The objective is to predict the number of people attending a cinema for a given theatre and show date.
+The objective is to predict the number of people visiting cinemas on particular dates using historical booking records and related information.
 
-Accurate audience forecasting can help cinema operators improve operational planning, staffing, and resource allocation.
+This is a **time-series regression problem** because audience attendance depends on temporal patterns, historical booking behaviour, and other factors that can vary over time.
+
+The main challenges include:
+
+- Combining data from different booking systems
+- Mapping theatre identifiers across datasets
+- Capturing temporal trends and recurring patterns
+- Constructing historical features without introducing data leakage
+- Evaluating models using a time-aware validation strategy
 
 - **Target Variable:** `audience_count`
 - **Evaluation Metric:** Root Mean Squared Error (RMSE)
